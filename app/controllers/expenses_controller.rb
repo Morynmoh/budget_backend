@@ -28,8 +28,14 @@ class ExpensesController < ApplicationController
   end
 
   def destroy
-    @expense.destroy
-    head :no_content
+    expense = Expense.find_by(id: params[:id])
+
+    if expense
+      expense.destroy
+      render json: { message: 'Expense deleted successfully' }, status: :ok
+    else
+      render json: { error: 'Expense not found' }, status: :not_found
+    end
   end
 
   private

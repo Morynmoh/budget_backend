@@ -21,6 +21,30 @@ Rails.application.routes.draw do
 
   post '/signup', to: 'users#create'
 
+  get '/users', to: 'users#index'
+
+  # Accounts routes
+  get '/accounts', to: 'accounts#index'  # For listing all accounts
+  post '/accounts', to: 'accounts#create' # For creating a new account
+  delete '/accounts/:id', to: 'accounts#destroy'
+  # Categories routes
+  get '/categories', to: 'categories#index' # For listing all categories
+  post '/categories', to: 'categories#create' # For creating a new category
+  delete '/categories/:id', to: 'categories#destroy'
+
+  # Expenses routes
+  post '/expenses', to: 'expenses#create' # For creating a new expense
+  delete '/expenses/:id', to: 'expenses#destroy'
+
+  # Incomes routes
+  post '/incomes', to: 'incomes#create' # For creating a new income
+
+  # Investments routes
+  post '/investments', to: 'investments#create' # For creating a new investment
+
+  # Any other routes you have, for example:
+  # root 'home#index'
+
 
   # Defines the root path route ("/")
   # root "posts#index"

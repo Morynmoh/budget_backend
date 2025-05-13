@@ -11,11 +11,13 @@ class CategoriesController < ApplicationController
   end
 
   def create
+    category_params = params.require(:category).permit(:name, :monthly_budget)
     @category = Category.new(category_params)
+
     if @category.save
       render json: @category, status: :created
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render json: { errors: @category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -28,8 +30,14 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @category.destroy
-    head :no_content
+    category = Category.find_by(id: params[:id])
+
+    if category
+      category.destroy
+      render json: { message: 'Category deleted successfully' }, status: :ok
+    else
+      render json: { error: 'Category not found' }, status: :not_found
+    end
   end
 
   private
@@ -39,7 +47,7 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:name, :description)
+    params.require(:category).permit(:name, :monthly_budget)
   end
 end
 
