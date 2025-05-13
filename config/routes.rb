@@ -27,15 +27,17 @@ Rails.application.routes.draw do
   get '/accounts', to: 'accounts#index'  # For listing all accounts
   post '/accounts', to: 'accounts#create' # For creating a new account
   delete '/accounts/:id', to: 'accounts#destroy'
+  put '/accounts/:id', to: 'accounts#update' # For updating an account
+  
   # Categories routes
   get '/categories', to: 'categories#index' # For listing all categories
   post '/categories', to: 'categories#create' # For creating a new category
-  delete '/categories/:id', to: 'categories#destroy'
+  put '/categories/:id', to: 'categories#update' # For updating a category
 
   # Expenses routes
   post '/expenses', to: 'expenses#create' # For creating a new expense
   delete '/expenses/:id', to: 'expenses#destroy'
-
+  put '/expenses/:id', to: 'expenses#update' # For updating an expense
   # Incomes routes
   post '/incomes', to: 'incomes#create' # For creating a new income
 

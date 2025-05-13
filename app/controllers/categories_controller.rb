@@ -22,10 +22,16 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    if @category.update(category_params)
-      render json: @category
+    category = Category.find_by(id: params[:id])
+
+    if category
+      if category.update(category_params) # Using strong parameters to whitelist allowed fields
+        render json: { message: 'Category updated successfully', category: category }, status: :ok
+      else
+        render json: { error: 'Failed to update Category', details: category.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render json: { error: 'Category not found' }, status: :not_found
     end
   end
 

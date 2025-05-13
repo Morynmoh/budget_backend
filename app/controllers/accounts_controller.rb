@@ -20,10 +20,16 @@ class AccountsController < ApplicationController
   end
 
   def update
-    if @account.update(account_params)
-      render json: @account
+    account = Account.find_by(id: params[:id])
+
+    if account
+      if account.update(account_params) # Using strong parameters to whitelist allowed fields
+        render json: { message: 'Account updated successfully', account: account }, status: :ok
+      else
+        render json: { error: 'Failed to update account', details: account.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: @account.errors, status: :unprocessable_entity
+      render json: { error: 'Account not found' }, status: :not_found
     end
   end
 

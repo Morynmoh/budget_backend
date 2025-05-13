@@ -20,10 +20,16 @@ class ExpensesController < ApplicationController
   end
 
   def update
-    if @expense.update(expense_params)
-      render json: @expense
+    expense = Expense.find_by(id: params[:id])
+
+    if expense
+      if expense.update(expense_params) # Using strong parameters to whitelist allowed fields
+        render json: { message: 'Expense updated successfully', expense: expense }, status: :ok
+      else
+        render json: { error: 'Failed to update expense', details: expense.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: @expense.errors, status: :unprocessable_entity
+      render json: { error: 'Expense not found' }, status: :not_found
     end
   end
 
