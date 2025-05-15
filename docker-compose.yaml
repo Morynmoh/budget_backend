@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+    
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rails
+    environment:
+      RAILS_ENV: development     
+      DATABASE_HOST: postgres
+      DATABASE_USER: morynmoh
+      DATABASE_PASSWORD: morynmoh
+      DATABASE_NAME: budget_development
+    ports:
+      - "3012:3000"                  
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: morynmoh
+      POSTGRES_PASSWORD: morynmoh
+      POSTGRES_DB: budget_development
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
