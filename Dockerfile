@@ -27,7 +27,7 @@ RUN sed -i 's/\r$//' bin/* && \
     sed -i '1 s/ruby\.exe/ruby/' bin/* && \
     chmod +x bin/*
 
-# Expose Rails development server port
+# Expose Rails development server port h
 EXPOSE 3012
 
 # Start the Rails server in development mode, binding to all interfaces
