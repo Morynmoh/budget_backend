@@ -19,7 +19,7 @@ RUN gem install bundler
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-# Copy the rest of your app #
+# Copy the rest of your app 
 COPY . .
 
 # 🔧 Fix Windows binstubs: normalize line endings and shebangs
