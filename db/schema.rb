@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_13_131450) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_17_120750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
-    t.decimal "balance"
+    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -71,6 +71,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_131450) do
     t.index ["account_id"], name: "index_investments_on_account_id"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "transaction_type"
+    t.decimal "amount", precision: 15, scale: 2
+    t.string "description"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+  end
+
+  create_table "transfers", force: :cascade do |t|
+    t.bigint "from_account_id"
+    t.bigint "to_account_id"
+    t.decimal "amount", precision: 15, scale: 2
+    t.string "description"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_account_id"], name: "index_transfers_on_from_account_id"
+    t.index ["to_account_id"], name: "index_transfers_on_to_account_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest"
@@ -85,4 +108,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_131450) do
   add_foreign_key "expenses", "categories"
   add_foreign_key "incomes", "accounts"
   add_foreign_key "investments", "accounts"
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transfers", "accounts", column: "from_account_id"
+  add_foreign_key "transfers", "accounts", column: "to_account_id"
 end
