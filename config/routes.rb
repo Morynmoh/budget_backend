@@ -39,15 +39,30 @@ Rails.application.routes.draw do
   post '/expenses', to: 'expenses#create' # For creating a new expense
   delete '/expenses/:id', to: 'expenses#destroy'
   put '/expenses/:id', to: 'expenses#update' # For updating an expense
+  
   # Incomes routes
   post '/incomes', to: 'incomes#create' # For creating a new income
 
   # Investments routes
   post '/investments', to: 'investments#create' # For creating a new investment
 
+  # Transactions routes
+  resources :transactions do
+    collection do
+      get 'by_account/:account_id', to: 'transactions#by_account'
+      get 'by_category/:category_id', to: 'transactions#by_category'
+    end
+  end
+
+  # Transfers routes
+  resources :transfers do
+    collection do
+      get 'by_account/:account_id', to: 'transfers#by_account'
+    end
+  end
+
   # Any other routes you have, for example:
   # root 'home#index'
-
 
   # Defines the root path route ("/")
   # root "posts#index"
