@@ -25,7 +25,7 @@ class Account < ApplicationRecord
     end
 
     def growth_percentage
-        return 0 if initial_amount.zero?
+        return 0 if balance.zero?
         ((total_interest_earned / balance) * 100).round(2)
     end
 
